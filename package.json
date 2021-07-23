@@ -1,5 +1,5 @@
 {
-  "name": "y-slate",
+  "name": "@worktile/y-slate",
   "version": "0.0.0",
   "description": "Yjs bindings for Slate.",
   "main": "dist/main/index.js",
@@ -37,7 +37,8 @@
     "ts-node": "^9.1.0",
     "typescript": "^4.3.5",
     "yjs": "^13.5.11",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "tsc": "^2.0.3"
   },
   "dependencies": {
     "standard-version": "^9.3.0",
