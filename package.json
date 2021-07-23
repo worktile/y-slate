@@ -9,7 +9,7 @@
     "build:module": "tsc -p tsconfig.module.json",
     "test": "jest --forceExit --coverage",
     "test:watch": "jest --forceExit --coverage --watch",
-    "pub": "npm run build && standard-version && npm publish --access public"
+    "pub": "npm run build && standard-version && cd dist && npm publish --access public"
   },
   "author": "",
   "license": "MIT",
