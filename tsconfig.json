@@ -27,7 +27,7 @@
     "listEmittedFiles": false /* Print names of generated files part of the compilation. */,
     "listFiles": false /* Print names of files part of the compilation. */,
     "pretty": true /* Stylize errors and messages using color and context. */,
-
+    "suppressImplicitAnyIndexErrors": true,
     "lib": ["ES2020", "DOM"]
   },
   "include": ["src"]
