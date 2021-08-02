@@ -18,8 +18,8 @@ export function createText(text = ''): Text {
 export function createNode(
   type = 'paragraph',
   text = '',
-  data?: Partial<Node>
-): Node {
+  data?: { [key: string]: any }
+) {
   return {
     type,
     children: [createText(text)],

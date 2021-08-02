@@ -1,6 +1,7 @@
 import { Editor, Location, Node, Path, Point, Transforms } from 'slate';
 import invariant from 'tiny-invariant';
 import * as Y from 'yjs';
+import { CustomNode } from '../src/model';
 import { YjsEditor } from '../src/plugin/yjs-editor';
 
 export interface TestEditor extends YjsEditor {
@@ -75,9 +76,9 @@ export const TestEditor = {
     };
   },
 
-  makeInsertNodes: (nodes: Node | Node[], at: Location): TransformFunc => {
+  makeInsertNodes: (nodes: (Node | CustomNode) | (Node | CustomNode)[], at: Location): TransformFunc => {
     return (e: Editor) => {
-      Transforms.insertNodes(e, nodes, { at });
+      Transforms.insertNodes(e, nodes as Node, { at });
     };
   },
 
@@ -99,7 +100,7 @@ export const TestEditor = {
     };
   },
 
-  makeSetNodes: (at: Location, props: Partial<Node>): TransformFunc => {
+  makeSetNodes: (at: Location, props: Partial<CustomNode>): TransformFunc => {
     return (e: Editor) => {
       Transforms.setNodes(e, props, { at });
     };

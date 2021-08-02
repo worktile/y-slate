@@ -1,5 +1,5 @@
-import { Node } from 'slate';
 import { toSlateDoc } from '../src';
+import { CustomNode } from '../src/model';
 import { TestEditor, TransformFunc } from './test-editor';
 import { createNode, createTestEditor, createValue, wait } from './utils';
 
@@ -351,7 +351,7 @@ describe('slate operations propagate between editors', () => {
       // Set initial state for src editor, propagate changes to dst editor.
       TestEditor.applyTransform(
         src,
-        TestEditor.makeInsertNodes(input as Node[], [0])
+        TestEditor.makeInsertNodes(input as CustomNode[], [0])
       );
       await wait();
 
