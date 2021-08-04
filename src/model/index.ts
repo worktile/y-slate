@@ -47,5 +47,15 @@ export const SyncNode = {
     }
 
     return SyncElement.getText(node);
+  },
+
+  getFirstText(node: SyncNode): Y.Text {
+    let text = SyncElement.getText(node as SyncElement);
+    if (text) {
+      return text;
+    }
+    const children = SyncNode.getChildren(node);
+    const firstChild = children?.get(0);
+    return SyncNode.getFirstText(firstChild as SyncNode);
   }
 };
