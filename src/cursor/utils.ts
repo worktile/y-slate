@@ -1,7 +1,7 @@
 import { Point } from 'slate';
 import invariant from 'tiny-invariant';
 import * as Y from 'yjs';
-import { SharedType, SyncElement, SyncNode } from '../model';
+import { SharedType, SyncNode } from '../model';
 import { getSyncNodePath, getTarget } from '../path';
 
 export function absolutePositionToRelativePosition(
@@ -9,7 +9,7 @@ export function absolutePositionToRelativePosition(
   point: Point
 ): Y.RelativePosition {
   const target = getTarget(sharedType, point.path);
-  const text = SyncElement.getText(target as SyncElement);
+  const text = SyncNode.getFirstText(target);
   invariant(text, 'Slate point should point to Text node');
   return Y.createRelativePositionFromTypeIndex(text, point.offset);
 }

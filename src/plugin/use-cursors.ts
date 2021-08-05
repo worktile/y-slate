@@ -1,5 +1,5 @@
 import { NodeEntry, Path, Range, Text } from 'slate';
-import { Cursor } from '../model';
+import { Cursor, CursorInfo } from '../model';
 import { relativePositionToAbsolutePosition } from '../cursor/utils';
 import { CursorEditor } from './cursor-editor';
 import { Subject } from 'rxjs';
@@ -39,7 +39,7 @@ export const useCursors = (
       .filter((cursor) => cursor.anchor && cursor.focus) as Cursor[];
     
     const decorate = ([node, path]: NodeEntry) => {
-      const ranges: Range[] = [];
+      const ranges: (Range & CursorInfo)[] = [];
       if (Text.isText(node) && cursors?.length) {
         cursors.forEach((cursor) => {
           if (Range.includes(cursor, path)) {

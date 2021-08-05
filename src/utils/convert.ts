@@ -1,6 +1,6 @@
 import { Element, Node, Path, Text } from 'slate';
 import * as Y from 'yjs';
-import { SharedType, SyncElement } from '../model';
+import { CustomNode, SharedType, SyncElement } from '../model';
 
 /**
  * Converts a sync element to a slate node
@@ -11,7 +11,7 @@ export function toSlateNode(element: SyncElement): Node {
   const text = SyncElement.getText(element);
   const children = SyncElement.getChildren(element);
 
-  const node: Partial<Node> = {};
+  const node: Partial<CustomNode> = {};
   if (text !== undefined) {
     node.text = text.toString();
   }
