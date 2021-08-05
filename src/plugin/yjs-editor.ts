@@ -100,6 +100,7 @@ export function withYjs<T extends Editor>(
   sharedType: SharedType
 ): T & YjsEditor {
   const e = editor as T & YjsEditor;
+  let isInitialize = false;
 
   e.sharedType = sharedType;
   SHARED_TYPES.set(editor, sharedType);
@@ -110,14 +111,20 @@ export function withYjs<T extends Editor>(
 
   sharedType.observeDeep((events) => {
     if (!YjsEditor.isLocal(e)) {
-      YjsEditor.applyYjsEvents(e, events);
+      if (!isInitialize) {
+        e.children = e.sharedType.toJSON();
+        e.onChange();
+        isInitialize = true;
+      } else {
+        YjsEditor.applyYjsEvents(e, events);
+      }
     }
   });
 
   const { onChange } = editor;
 
   e.onChange = () => {
-    if (!YjsEditor.isRemote(e)) {
+    if (!YjsEditor.isRemote(e) && isInitialize) {
       YjsEditor.applySlateOperations(e, e.operations);
     }
 
