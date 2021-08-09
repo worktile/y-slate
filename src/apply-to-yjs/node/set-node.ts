@@ -1,4 +1,4 @@
-import { SetNodeOperation } from 'slate';
+import { SetNodeOperation, Transforms } from 'slate';
 import { SharedType, SyncElement } from '../../model';
 import { getTarget } from '../../path';
 
@@ -18,8 +18,13 @@ export default function setNode(
     if (key === 'children' || key === 'text') {
       throw new Error(`Cannot set the "${key}" property of nodes!`);
     }
-
     node.set(key, value);
+  });
+
+  Object.entries(op.properties).forEach(([key]) => {
+    if (!op.newProperties.hasOwnProperty(key)) {
+      node.delete(key);
+    }
   });
 
   return doc;
