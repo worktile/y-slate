@@ -52,10 +52,10 @@ export function wait(ms = 0): Promise<void> {
 export function createTestEditor(value?: Node[]): TestEditor {
   const doc = new Y.Doc();
   const syncType = doc.getArray<SyncElement>('content');
-
+  
   if (value) {
     toSharedType(syncType, value);
   }
 
-  return withTest(withYjs(createEditor(), syncType));
+  return withTest(withYjs(createEditor(), syncType, true));
 }
