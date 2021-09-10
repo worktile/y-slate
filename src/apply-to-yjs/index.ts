@@ -1,6 +1,7 @@
 import { Operation } from 'slate';
 import invariant from 'tiny-invariant';
 import { SharedType } from '../model';
+import { YjsEditor } from '../plugin';
 import node from './node';
 import text from './text';
 import { ApplyFunc, OpMapper } from './types';
@@ -41,14 +42,15 @@ export function applySlateOp(
  */
 export default function applySlateOps(
   sharedType: SharedType,
-  ops: Operation[]
+  ops: Operation[],
+  editor: YjsEditor
 ): SharedType {
   invariant(sharedType.doc, 'Shared type without attached document');
 
   if (ops.length > 0) {
     sharedType.doc.transact(() => {
       ops.forEach((op) => applySlateOp(sharedType, op));
-    });
+    }, editor);
   }
 
   return sharedType;

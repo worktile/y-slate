@@ -8,6 +8,7 @@ import {
   withYjs,
   YjsEditor
 } from './plugin';
+import { withUndoManager } from './plugin/undo-manage';
 import { toSharedType, toSlateDoc, toSyncElement } from './utils';
 
 export {
@@ -24,5 +25,6 @@ export {
   toSyncElement,
   translateYjsEvent,
   applyYjsEvents,
-  applySlateOps
+  applySlateOps,
+  withUndoManager
 };
