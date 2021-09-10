@@ -6,6 +6,8 @@ import { BasePoint, Editor, Path, Transforms } from 'slate';
 
 export interface YjsUndoEditor extends YjsEditor {
   undoManager: UndoManager;
+  undo: () => void;
+  redo: () => void;
 }
 
 export function withUndoManager<T extends YjsEditor>(
@@ -25,7 +27,7 @@ export function withUndoManager<T extends YjsEditor>(
   });
 
   e.onChange = () => {
-    if(!YjsEditor.isRemote(e)){
+    if (!YjsEditor.isRemote(e)) {
       const lastOperation = e.operations[e.operations.length - 1];
       if (lastOperation && lastOperation.type === 'set_selection' && lastOperation.properties) {
         const { anchor, focus } = lastOperation.properties as any;
@@ -41,8 +43,6 @@ export function withUndoManager<T extends YjsEditor>(
     }
     onChange();
   };
-
-
   undoManager.on('stack-item-added', (event: any) => {
     if (event.changedParentTypes.has(e.sharedType) && previousSelection) {
       event.stackItem.meta.set(e, previousSelection);
@@ -55,7 +55,7 @@ export function withUndoManager<T extends YjsEditor>(
     if (selection) {
       const anchor = relativePositionToAbsolutePosition(e.sharedType, selection.anchorRelative);
       const focus = relativePositionToAbsolutePosition(e.sharedType, selection.focusRelative);
-      if(Editor.hasPath(e,anchor?.path as Path) && Editor.hasPath(e, focus?.path as Path)){
+      if (anchor?.path && focus?.path && Editor.hasPath(e, anchor.path as Path) && Editor.hasPath(e, focus.path as Path)) {
         Transforms.setSelection(e, {
           anchor: anchor as BasePoint,
           focus: focus as BasePoint
@@ -63,8 +63,11 @@ export function withUndoManager<T extends YjsEditor>(
       }
     }
   });
-
   e.undoManager = undoManager;
+
+  e.undo = () => e.undoManager.undo();
+  e.redo = () => e.undoManager.redo();
+
   return e;
 
 }
