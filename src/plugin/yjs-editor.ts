@@ -39,7 +39,7 @@ export const YjsEditor = {
    */
   applySlateOperations: (editor: YjsEditor, operations: Operation[]): void => {
     YjsEditor.asLocal(editor, () => {
-      applySlateOps(YjsEditor.sharedType(editor), operations);
+      applySlateOps(YjsEditor.sharedType(editor), operations, editor);
     });
   },
 
@@ -102,7 +102,7 @@ export function withYjs<T extends Editor>(
 ): T & YjsEditor {
   const e = editor as T & YjsEditor;
   let isInitialized = isLocalChange || false;
-
+  
   e.sharedType = sharedType;
   SHARED_TYPES.set(editor, sharedType);
 
