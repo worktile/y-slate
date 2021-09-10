@@ -2,7 +2,7 @@ import { UndoManager } from 'yjs';
 import * as Y from 'yjs';
 import { YjsEditor } from './yjs-editor';
 import { absolutePositionToRelativePosition, relativePositionToAbsolutePosition } from '../cursor/utils';
-import { BasePoint, Transforms } from 'slate';
+import { BasePoint, Editor, Path, Transforms } from 'slate';
 
 export interface YjsUndoEditor extends YjsEditor {
   undoManager: UndoManager;
@@ -55,10 +55,12 @@ export function withUndoManager<T extends YjsEditor>(
     if (selection) {
       const anchor = relativePositionToAbsolutePosition(e.sharedType, selection.anchorRelative);
       const focus = relativePositionToAbsolutePosition(e.sharedType, selection.focusRelative);
-      Transforms.setSelection(e, {
-        anchor: anchor as BasePoint,
-        focus: focus as BasePoint
-      });
+      if(Editor.hasPath(e,anchor?.path as Path) && Editor.hasPath(e, focus?.path as Path)){
+        Transforms.setSelection(e, {
+          anchor: anchor as BasePoint,
+          focus: focus as BasePoint
+        });
+      }
     }
   });
 
