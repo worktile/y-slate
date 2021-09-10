@@ -1,6 +1,6 @@
 {
   "name": "@worktile/y-slate",
-  "version": "0.1.5",
+  "version": "0.1.7",
   "description": "Yjs bindings for Slate.",
   "main": "main/index.js",
   "scripts": {
