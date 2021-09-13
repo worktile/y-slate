@@ -112,6 +112,7 @@ export function withYjs<T extends Editor>(
 
   sharedType.observeDeep((events) => {
     if (!YjsEditor.isLocal(e)) {
+      const isNormalizing = Editor.isNormalizing(editor);
       Editor.setNormalizing(e, false);
       if (!isInitialized) {
         e.children = e.sharedType.toJSON();
@@ -120,6 +121,7 @@ export function withYjs<T extends Editor>(
       } else {
         YjsEditor.applyYjsEvents(e, events);
       }
+      Editor.setNormalizing(e, isNormalizing);
     }
   });
 

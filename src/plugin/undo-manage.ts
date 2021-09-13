@@ -67,17 +67,11 @@ export function withUndoManager<T extends YjsEditor>(
 
   e.undo = () => {
     e.undoManager.undo();
-    Promise.resolve().then(() => {
-      Editor.setNormalizing(e, true);
-      Editor.normalize(editor);
-    });
+    Promise.resolve().then(() => Editor.normalize(editor));
   };
   e.redo = () => {
     e.undoManager.redo();
-    Promise.resolve().then(() => {
-      Editor.setNormalizing(e, true);
-      Editor.normalize(editor);
-    });
+    Promise.resolve().then(() => Editor.normalize(editor));
   };
 
   return e;
