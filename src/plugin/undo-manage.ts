@@ -65,8 +65,20 @@ export function withUndoManager<T extends YjsEditor>(
   });
   e.undoManager = undoManager;
 
-  e.undo = () => e.undoManager.undo();
-  e.redo = () => e.undoManager.redo();
+  e.undo = () => {
+    e.undoManager.undo();
+    Promise.resolve().then(() => {
+      Editor.setNormalizing(e, true);
+      Editor.normalize(editor);
+    });
+  };
+  e.redo = () => {
+    e.undoManager.redo();
+    Promise.resolve().then(() => {
+      Editor.setNormalizing(e, true);
+      Editor.normalize(editor);
+    });
+  };
 
   return e;
 
