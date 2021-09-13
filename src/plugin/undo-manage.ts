@@ -27,10 +27,11 @@ export function withUndoManager<T extends YjsEditor>(
   });
 
   e.onChange = () => {
+    onChange();
     if (!YjsEditor.isRemote(e)) {
       const lastOperation = e.operations[e.operations.length - 1];
-      if (lastOperation && lastOperation.type === 'set_selection' && lastOperation.properties) {
-        const { anchor, focus } = lastOperation.properties as any;
+      if (lastOperation && lastOperation.type === 'set_selection' && lastOperation.newProperties) {
+        const { anchor, focus } = lastOperation.newProperties as any;
         const anchorRelative = anchor && absolutePositionToRelativePosition(e.sharedType, anchor);
         const focusRelative = focus && absolutePositionToRelativePosition(e.sharedType, focus);
         if (anchorRelative && focusRelative) {
@@ -41,7 +42,6 @@ export function withUndoManager<T extends YjsEditor>(
         }
       }
     }
-    onChange();
   };
   undoManager.on('stack-item-added', (event: any) => {
     if (event.changedParentTypes.has(e.sharedType) && previousSelection) {
