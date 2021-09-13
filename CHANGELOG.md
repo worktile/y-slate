@@ -4,25 +4,9 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 0.1.9 (2021-09-13)
 
-
-### Features
-
-* add getFirstText ([fe68979](https://github.com/worktile/slate-yjs/commit/fe6897912a6d9779add3499df37609f33fcccddc))
-* add undo plugin #Wik-4733 ([f5c716c](https://github.com/worktile/slate-yjs/commit/f5c716ce6560414fafb69a090c97d6d5c124e551)), closes [#Wik-4733](https://github.com/worktile/slate-yjs/issues/Wik-4733)
-* **core:** use toJSON to initialize data #WIK-4535 ([4485ecc](https://github.com/worktile/slate-yjs/commit/4485eccc9d606ee4998ab2e51066c6022b2b9837)), closes [#WIK-4535](https://github.com/worktile/slate-yjs/issues/WIK-4535)
-
-
 ### Bug Fixes
 
-* add undo and redo to withUndoManager #WIK-4733 ([b1cf79d](https://github.com/worktile/slate-yjs/commit/b1cf79d4f6eb91225f2646d6fc386fd156551526)), closes [#WIK-4733](https://github.com/worktile/slate-yjs/issues/WIK-4733)
-* **core:** fix the undo operation does not take effect remotely #WIK-4555 ([dd31260](https://github.com/worktile/slate-yjs/commit/dd3126085552bf33270fa4352bec5b4cddc7c39a)), closes [#WIK-4555](https://github.com/worktile/slate-yjs/issues/WIK-4555)
-* **cursor:** fix absolutePositionToRelativePosition error ([fe47657](https://github.com/worktile/slate-yjs/commit/fe47657db4519a7885f432fbb6899bde785b9abd))
-* **cursor:** fix wrong path ([#11](https://github.com/worktile/slate-yjs/issues/11)) ([a02df8b](https://github.com/worktile/slate-yjs/commit/a02df8bb5c8c883cbd7569facc0679eb338ecc60))
-* fix cursor position #WIK-4778 ([94beeca](https://github.com/worktile/slate-yjs/commit/94beecadbc72b71587875c8eabdd6a377431ec7b)), closes [#WIK-4778](https://github.com/worktile/slate-yjs/issues/WIK-4778)
-* fix test error #WIK-4724 ([2d0190f](https://github.com/worktile/slate-yjs/commit/2d0190f5ff6541bb04a58b5a7ccb69a01edb39b8)), closes [#WIK-4724](https://github.com/worktile/slate-yjs/issues/WIK-4724)
-* optmize code ([3ad87b1](https://github.com/worktile/slate-yjs/commit/3ad87b11df86674fccf8e5aeed56751f05042058))
-* optmize code  #WIK-4764 ([ec2901a](https://github.com/worktile/slate-yjs/commit/ec2901aff9965cd9071e29678514cb13958e95e9)), closes [#WIK-4764](https://github.com/worktile/slate-yjs/issues/WIK-4764)
-* remove normalizing when operation is remote #WIK-4764 ([4bb8793](https://github.com/worktile/slate-yjs/commit/4bb879333d67d7d4d1e02a0b8dd65f7ffc52393b)), closes [#WIK-4764](https://github.com/worktile/slate-yjs/issues/WIK-4764)
+* **core:** : fix undo manage cursor position #WIK-4778
 
 ### 0.1.8 (2021-09-13)
 
