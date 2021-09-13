@@ -102,7 +102,7 @@ export function withYjs<T extends Editor>(
 ): T & YjsEditor {
   const e = editor as T & YjsEditor;
   let isInitialized = isLocalChange || false;
-  
+
   e.sharedType = sharedType;
   SHARED_TYPES.set(editor, sharedType);
 
@@ -112,6 +112,7 @@ export function withYjs<T extends Editor>(
 
   sharedType.observeDeep((events) => {
     if (!YjsEditor.isLocal(e)) {
+      Editor.setNormalizing(e, false);
       if (!isInitialized) {
         e.children = e.sharedType.toJSON();
         e.onChange();
