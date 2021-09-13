@@ -27,6 +27,7 @@ export function withUndoManager<T extends YjsEditor>(
   });
 
   e.onChange = () => {
+    onChange();
     if (!YjsEditor.isRemote(e)) {
       const lastOperation = e.operations[e.operations.length - 1];
       if (lastOperation && lastOperation.type === 'set_selection' && lastOperation.properties) {
@@ -41,7 +42,6 @@ export function withUndoManager<T extends YjsEditor>(
         }
       }
     }
-    onChange();
   };
   undoManager.on('stack-item-added', (event: any) => {
     if (event.changedParentTypes.has(e.sharedType) && previousSelection) {
