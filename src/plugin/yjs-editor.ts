@@ -1,4 +1,4 @@
-import { Editor, Operation } from 'slate';
+import { Editor, Operation, Point, Range, Transforms } from 'slate';
 import invariant from 'tiny-invariant';
 import * as Y from 'yjs';
 import { applyYjsEvents } from '../apply-to-slate';
@@ -8,6 +8,7 @@ import { toSlateDoc } from '../utils/convert';
 
 const IS_REMOTE: WeakSet<Editor> = new WeakSet();
 const IS_LOCAL: WeakSet<Editor> = new WeakSet();
+const IS_UNDO: WeakSet<Editor> = new WeakSet();
 const SHARED_TYPES: WeakMap<Editor, SharedType> = new WeakMap();
 
 export interface YjsEditor extends Editor {
@@ -65,12 +66,46 @@ export const YjsEditor = {
   },
 
   /**
+ * Returns whether the editor currently is applying remote changes.
+ */
+  isUndo: (editor: YjsEditor): boolean => {
+    return IS_UNDO.has(editor);
+  },
+
+  /**
+   * Performs an action as a remote operation.
+   */
+  asUndo: (editor: YjsEditor, fn: () => void): void => {
+    const wasUndo = YjsEditor.isUndo(editor);
+    IS_UNDO.add(editor);
+
+    fn();
+
+    if (!wasUndo) {
+      Promise.resolve().then(() => IS_UNDO.delete(editor));
+    }
+  },
+
+  /**
    * Apply Yjs events to slate
    */
   applyYjsEvents: (editor: YjsEditor, events: Y.YEvent[]): void => {
-    YjsEditor.asRemote(editor, () => {
+    if (YjsEditor.isUndo(editor)) {
       applyYjsEvents(editor, events);
-    });
+    } else {
+      // const selection = editor.selection;
+      YjsEditor.asRemote(editor, () => {
+        applyYjsEvents(editor, events);
+      });
+      // if (editor.operations[0] && editor.operations[0].type === 'insert_text') {
+      //   const point: Point = { path: editor.operations[0].path, offset: editor.operations[0].offset };
+      //   if (selection && editor.selection && !Range.equals(selection, editor.selection)
+      //     && (Point.isBefore(selection.anchor, point) || Point.equals(selection.anchor, point)
+      //       && (Point.isBefore(selection.focus, point) || Point.equals(selection.focus, point)))) {
+      //         Transforms.select(editor, selection);
+      //   }
+      // }
+    }
   },
 
   /**
