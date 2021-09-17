@@ -1,4 +1,4 @@
-import { Editor, Operation, Point, Range, Transforms } from 'slate';
+import { Editor, Operation } from 'slate';
 import invariant from 'tiny-invariant';
 import * as Y from 'yjs';
 import { applyYjsEvents } from '../apply-to-slate';
@@ -93,18 +93,9 @@ export const YjsEditor = {
     if (YjsEditor.isUndo(editor)) {
       applyYjsEvents(editor, events);
     } else {
-      // const selection = editor.selection;
       YjsEditor.asRemote(editor, () => {
         applyYjsEvents(editor, events);
       });
-      // if (editor.operations[0] && editor.operations[0].type === 'insert_text') {
-      //   const point: Point = { path: editor.operations[0].path, offset: editor.operations[0].offset };
-      //   if (selection && editor.selection && !Range.equals(selection, editor.selection)
-      //     && (Point.isBefore(selection.anchor, point) || Point.equals(selection.anchor, point)
-      //       && (Point.isBefore(selection.focus, point) || Point.equals(selection.focus, point)))) {
-      //         Transforms.select(editor, selection);
-      //   }
-      // }
     }
   },
 
