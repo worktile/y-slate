@@ -1,4 +1,4 @@
-import { Editor, Operation } from 'slate';
+import { Descendant, Editor, Operation } from 'slate';
 import invariant from 'tiny-invariant';
 import * as Y from 'yjs';
 import { applyYjsEvents } from '../apply-to-slate';
@@ -40,7 +40,19 @@ export const YjsEditor = {
    */
   applySlateOperations: (editor: YjsEditor, operations: Operation[]): void => {
     YjsEditor.asLocal(editor, () => {
-      applySlateOps(YjsEditor.sharedType(editor), operations, editor);
+      try {
+        applySlateOps(YjsEditor.sharedType(editor), operations, editor);
+      } catch (error) {
+        const e: YjsEditor & {
+          onError: (code?: number,
+            name?: string,
+            nativeError?: any,
+            data?: Descendant[]) => void
+        } = editor as any;
+        if (e.onError) {
+          e.onError(10000, 'apply local operations', error);
+        }
+      }
     });
   },
 
@@ -91,10 +103,34 @@ export const YjsEditor = {
    */
   applyYjsEvents: (editor: YjsEditor, events: Y.YEvent[]): void => {
     if (YjsEditor.isUndo(editor)) {
-      applyYjsEvents(editor, events);
+      try {
+        applyYjsEvents(editor, events);
+      } catch (error) {
+        const e: YjsEditor & {
+          onError: (code?: number,
+            name?: string,
+            nativeError?: any,
+            data?: Descendant[]) => void
+        } = editor as any;
+        if (e.onError) {
+          e.onError(10001, 'apply yjs undo events', error);
+        }
+      }
     } else {
       YjsEditor.asRemote(editor, () => {
-        applyYjsEvents(editor, events);
+        try {
+          applyYjsEvents(editor, events);
+        } catch (error) {
+          const e: YjsEditor & {
+            onError: (code?: number,
+              name?: string,
+              nativeError?: any,
+              data?: Descendant[]) => void
+          } = editor as any;
+          if (e.onError) {
+            e.onError(10002, 'apply yjs remote events', error);
+          }
+        }
       });
     }
   },
