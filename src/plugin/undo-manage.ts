@@ -2,7 +2,7 @@ import { UndoManager } from 'yjs';
 import * as Y from 'yjs';
 import { YjsEditor } from './yjs-editor';
 import { absolutePositionToRelativePosition, relativePositionToAbsolutePosition } from '../cursor/utils';
-import { BasePoint, Editor, Path, Transforms } from 'slate';
+import { BasePoint, Descendant, Editor, Path, Transforms } from 'slate';
 
 export interface YjsUndoEditor extends YjsEditor {
   undoManager: UndoManager;
@@ -29,16 +29,30 @@ export function withUndoManager<T extends YjsEditor>(
   e.onChange = () => {
     onChange();
     if (!YjsEditor.isRemote(e)) {
-      const lastOperation = e.operations[e.operations.length - 1];
-      if (lastOperation && lastOperation.type === 'set_selection' && lastOperation.newProperties) {
-        const { anchor, focus } = lastOperation.newProperties as any;
-        const anchorRelative = anchor && absolutePositionToRelativePosition(e.sharedType, anchor);
-        const focusRelative = focus && absolutePositionToRelativePosition(e.sharedType, focus);
-        if (anchorRelative && focusRelative) {
-          previousSelection = {
-            anchorRelative,
-            focusRelative
-          };
+      try {
+        const lastOperation = e.operations[e.operations.length - 1];
+        if (lastOperation && lastOperation.type === 'set_selection' && lastOperation.newProperties) {
+          const { anchor, focus } = lastOperation.newProperties as any;
+          const anchorRelative = anchor && absolutePositionToRelativePosition(e.sharedType, anchor);
+          const focusRelative = focus && absolutePositionToRelativePosition(e.sharedType, focus);
+          if (anchorRelative && focusRelative) {
+            previousSelection = {
+              anchorRelative,
+              focusRelative
+            };
+          }
+        }
+      } catch (error) {
+        const e: YjsEditor & {
+          onError: (errorData: {
+            code?: number,
+            name?: string,
+            nativeError?: any,
+            data?: Descendant[]
+          }) => void
+        } = editor as any;
+        if (e.onError) {
+          e.onError({ code: 10004, name: 'get previous relative', nativeError: error });
         }
       }
     }

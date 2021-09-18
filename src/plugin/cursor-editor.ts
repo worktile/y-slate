@@ -1,4 +1,4 @@
-import { Editor } from 'slate';
+import { Descendant, Editor } from 'slate';
 import invariant from 'tiny-invariant';
 import { Awareness } from 'y-protocols/awareness';
 import { absolutePositionToRelativePosition } from '../cursor/utils';
@@ -21,16 +21,30 @@ export const CursorEditor = {
     const sharedType = YjsEditor.sharedType(editor);
     const { selection } = editor;
 
-    const anchor =
-      selection &&
-      absolutePositionToRelativePosition(sharedType, selection.anchor);
+    try {
+      const anchor =
+        selection &&
+        absolutePositionToRelativePosition(sharedType, selection.anchor);
 
-    const focus =
-      selection &&
-      absolutePositionToRelativePosition(sharedType, selection.focus);
+      const focus =
+        selection &&
+        absolutePositionToRelativePosition(sharedType, selection.focus);
 
-    const awareness = CursorEditor.awareness(editor);
-    awareness.setLocalState({ ...awareness.getLocalState(), anchor, focus });
+      const awareness = CursorEditor.awareness(editor);
+      awareness.setLocalState({ ...awareness.getLocalState(), anchor, focus });
+    } catch (error) {
+      const e: YjsEditor & {
+        onError: (errorData: {
+          code?: number,
+          name?: string,
+          nativeError?: any,
+          data?: Descendant[]
+        }) => void
+      } = editor as any;
+      if (e.onError) {
+        e.onError({ code: 10003, name: 'udate cursor', nativeError: error });
+      }
+    }
   }
 };
 
