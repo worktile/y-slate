@@ -44,13 +44,15 @@ export const YjsEditor = {
         applySlateOps(YjsEditor.sharedType(editor), operations, editor);
       } catch (error) {
         const e: YjsEditor & {
-          onError: (code?: number,
+          onError: (errorData: {
+            code?: number,
             name?: string,
             nativeError?: any,
-            data?: Descendant[]) => void
+            data?: Descendant[]
+          }) => void
         } = editor as any;
         if (e.onError) {
-          e.onError(10000, 'apply local operations', error);
+          e.onError({ code: 10000, name: 'apply local operations', nativeError: error });
         }
       }
     });
@@ -107,13 +109,15 @@ export const YjsEditor = {
         applyYjsEvents(editor, events);
       } catch (error) {
         const e: YjsEditor & {
-          onError: (code?: number,
+          onError: (errorData: {
+            code?: number,
             name?: string,
             nativeError?: any,
-            data?: Descendant[]) => void
+            data?: Descendant[]
+          }) => void
         } = editor as any;
         if (e.onError) {
-          e.onError(10001, 'apply yjs undo events', error);
+          e.onError({ code: 10001, name: 'apply yjs undo events', nativeError: error });
         }
       }
     } else {
@@ -122,13 +126,15 @@ export const YjsEditor = {
           applyYjsEvents(editor, events);
         } catch (error) {
           const e: YjsEditor & {
-            onError: (code?: number,
+            onError: (errorData: {
+              code?: number,
               name?: string,
               nativeError?: any,
-              data?: Descendant[]) => void
+              data?: Descendant[]
+            }) => void
           } = editor as any;
           if (e.onError) {
-            e.onError(10002, 'apply yjs remote events', error);
+            e.onError({ code: 10002, name: 'apply yjs remote events', nativeError: error });
           }
         }
       });
