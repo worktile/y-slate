@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.10](https://github.com/worktile/slate-yjs/compare/v0.1.10..v0.0.9) (2021-09-18)
+
+### Features
+
+* **core:** fix: bind decorate to root node
+* **core:** feat: add is_undo
+* **core:** chore: remove unused code segment
+* **core:** feat: add try catch for yjs editor
+* **core:** fix: prevent applySlateOperations when isUndo
+* **core:** feat(error): handle error
+
+
 ### 0.1.9 (2021-09-13)
 
 ### Bug Fixes
