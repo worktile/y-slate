@@ -1,4 +1,4 @@
-import { Descendant, Range } from 'slate';
+import { Descendant, Path, Range } from 'slate';
 import * as Y from 'yjs';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -13,7 +13,9 @@ export interface Cursor extends Range {
 }
 export interface CursorInfo extends Cursor{
   isForward: boolean;
-  isCaret: boolean;
+  originAnchorPath: Path;
+  originFocusPath: Path;
+
 }
 
 export interface CustomNode extends Node{
