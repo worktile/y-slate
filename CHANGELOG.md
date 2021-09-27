@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 0.1.11 (2021-09-27)(https://github.com/worktile/slate-yjs/compare/v0.1.11..v0.0.10) (2021-09-18)
+
+
+### Features
+
+* **core:**  add module to package.json
+
+
 ### [0.1.10](https://github.com/worktile/slate-yjs/compare/v0.1.10..v0.0.9) (2021-09-18)
 
 ### Features
