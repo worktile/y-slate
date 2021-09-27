@@ -2,7 +2,8 @@
   "name": "@worktile/y-slate",
   "version": "0.1.10",
   "description": "Yjs bindings for Slate.",
-  "main": "module/index.js",
+  "main": "main/index.js",
+  "module": "module/index.js",
   "scripts": {
     "build": "rimraf dist && npm run build:main & npm run build:module",
     "build:main": "tsc -p tsconfig.json",
