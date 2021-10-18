@@ -18,7 +18,11 @@ export default function setNode(
     if (key === 'children' || key === 'text') {
       throw new Error(`Cannot set the "${key}" property of nodes!`);
     }
-    node.set(key, value);
+    if (value == null) {
+      node.delete(key);
+    } else {
+      node.set(key, value);
+    }
     
   });
 
