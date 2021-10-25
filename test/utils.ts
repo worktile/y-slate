@@ -57,5 +57,5 @@ export function createTestEditor(value?: Node[]): TestEditor {
     toSharedType(syncType, value);
   }
 
-  return withTest(withYjs(createEditor(), syncType, true));
+  return withTest(withYjs(createEditor(), syncType, { synchronizeValue: true }, true));
 }

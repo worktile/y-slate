@@ -166,7 +166,8 @@ export const YjsEditor = {
 export function withYjs<T extends Editor>(
   editor: T,
   sharedType: SharedType,
-  isLocalChange?: boolean
+  { isYynchronizeValue = true }: WithYjsOptions = {},
+  isLocalChange?: boolean,
 ): T & YjsEditor {
   const e = editor as T & YjsEditor;
   let isInitialized = isLocalChange || false;
@@ -174,9 +175,12 @@ export function withYjs<T extends Editor>(
   e.sharedType = sharedType;
   SHARED_TYPES.set(editor, sharedType);
 
-  setTimeout(() => {
-    YjsEditor.synchronizeValue(e);
-  });
+  if (isYynchronizeValue) {
+    setTimeout(() => {
+      YjsEditor.synchronizeValue(e);
+      isInitialized = true;
+    });
+  }
 
   sharedType.observeDeep((events) => {
     if (!YjsEditor.isLocal(e)) {
@@ -205,3 +209,7 @@ export function withYjs<T extends Editor>(
 
   return e;
 }
+
+export type WithYjsOptions = {
+  isYynchronizeValue?: boolean;
+};
