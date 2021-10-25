@@ -166,11 +166,10 @@ export const YjsEditor = {
 export function withYjs<T extends Editor>(
   editor: T,
   sharedType: SharedType,
-  { isYynchronizeValue = true }: WithYjsOptions = {},
-  isLocalChange?: boolean,
+  { isYynchronizeValue = true }: WithYjsOptions = {}
 ): T & YjsEditor {
   const e = editor as T & YjsEditor;
-  let isInitialized = isLocalChange || false;
+  let isInitialized = false;
 
   e.sharedType = sharedType;
   SHARED_TYPES.set(editor, sharedType);
