@@ -166,7 +166,7 @@ export const YjsEditor = {
 export function withYjs<T extends Editor>(
   editor: T,
   sharedType: SharedType,
-  { isYynchronizeValue = true }: WithYjsOptions = {}
+  { isSynchronizeValue = true }: WithYjsOptions = {}
 ): T & YjsEditor {
   const e = editor as T & YjsEditor;
   let isInitialized = false;
@@ -174,7 +174,7 @@ export function withYjs<T extends Editor>(
   e.sharedType = sharedType;
   SHARED_TYPES.set(editor, sharedType);
 
-  if (isYynchronizeValue) {
+  if (isSynchronizeValue) {
     setTimeout(() => {
       YjsEditor.synchronizeValue(e);
       isInitialized = true;
@@ -210,5 +210,5 @@ export function withYjs<T extends Editor>(
 }
 
 export type WithYjsOptions = {
-  isYynchronizeValue?: boolean;
+  isSynchronizeValue?: boolean;
 };
