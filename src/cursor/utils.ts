@@ -9,7 +9,7 @@ export function absolutePositionToRelativePosition(
   point: Point
 ): Y.RelativePosition {
   const target = getTarget(sharedType, point.path);
-  const text = SyncNode.getFirstText(target);
+  const text = SyncNode.getFirstText(target as any);
   invariant(text, 'Slate point should point to Text node');
   const offset = point.offset >= 0 ? point.offset : 0;
   return Y.createRelativePositionFromTypeIndex(text, offset);

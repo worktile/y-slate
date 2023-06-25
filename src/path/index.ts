@@ -2,9 +2,9 @@ import { Path } from 'slate';
 import invariant from 'tiny-invariant';
 import * as Y from 'yjs';
 import { SharedType, SyncElement, SyncNode } from '../model';
-import { toSlateDoc } from '../utils/convert';
+// import { toSlateDoc } from '../utils/convert';
 
-const isTree = (node: SyncNode): boolean => !!SyncNode.getChildren(node);
+// const isTree = (node: SyncNode): boolean => !!SyncNode.getChildren(node);
 
 /**
  * Returns the SyncNode referenced by the path
@@ -12,22 +12,24 @@ const isTree = (node: SyncNode): boolean => !!SyncNode.getChildren(node);
  * @param doc
  * @param path
  */
-export function getTarget(doc: SharedType, path: Path): SyncNode {
-  function iterate(current: SyncNode, idx: number) {
-    const children = SyncNode.getChildren(current);
+export function getTarget(doc: SharedType, path: Path): null {
+  console.log(doc, path);
+  // function iterate(current: SyncNode, idx: number) {
+  //   const children = SyncNode.getChildren(current);
 
-    if (!isTree(current) || !children?.get(idx)) {
-      throw new TypeError(
-        `path ${path.toString()} does not match doc ${JSON.stringify(
-          toSlateDoc(doc)
-        )}`
-      );
-    }
+  //   if (!isTree(current) || !children?.get(idx)) {
+  //     throw new TypeError(
+  //       `path ${path.toString()} does not match doc ${JSON.stringify(
+  //         toSlateDoc(doc)
+  //       )}`
+  //     );
+  //   }
 
-    return children.get(idx);
-  }
+  //   return children.get(idx);
+  // }
 
-  return path.reduce<SyncNode>(iterate, doc);
+  // return path.reduce<SyncNode>(iterate, doc);
+  return null;
 }
 
 function getParentPath(path: Path, level = 1): [number, Path] {

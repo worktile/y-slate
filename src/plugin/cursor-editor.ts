@@ -1,7 +1,7 @@
 import { Descendant, Editor } from 'slate';
 import invariant from 'tiny-invariant';
 import { Awareness } from 'y-protocols/awareness';
-import { absolutePositionToRelativePosition } from '../cursor/utils';
+// import { absolutePositionToRelativePosition } from '../cursor/utils';
 import { YjsEditor } from './yjs-editor';
 
 const AWARENESS: WeakMap<Editor, Awareness> = new WeakMap();
@@ -18,20 +18,20 @@ export const CursorEditor = {
   },
 
   updateCursor: (editor: CursorEditor): void => {
-    const sharedType = YjsEditor.sharedType(editor);
-    const { selection } = editor;
+    // const sharedType = YjsEditor.sharedType(editor);
+    // const { selection } = editor;
 
     try {
-      const anchor =
-        selection &&
-        absolutePositionToRelativePosition(sharedType, selection.anchor);
+      // const anchor =
+      //   selection &&
+      //   absolutePositionToRelativePosition(sharedType, selection.anchor);
 
-      const focus =
-        selection &&
-        absolutePositionToRelativePosition(sharedType, selection.focus);
+      // const focus =
+      //   selection &&
+      //   absolutePositionToRelativePosition(sharedType, selection.focus);
 
-      const awareness = CursorEditor.awareness(editor);
-      awareness.setLocalState({ ...awareness.getLocalState(), anchor, focus });
+      // const awareness = CursorEditor.awareness(editor);
+      // awareness.setLocalState({ ...awareness.getLocalState(), anchor, focus });
     } catch (error) {
       const e: YjsEditor & {
         onError: (errorData: {

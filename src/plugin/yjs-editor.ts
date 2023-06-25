@@ -2,9 +2,9 @@ import { Descendant, Editor, Operation } from 'slate';
 import invariant from 'tiny-invariant';
 import * as Y from 'yjs';
 import { applyYjsEvents } from '../apply-to-slate';
-import applySlateOps from '../apply-to-yjs';
+// import applySlateOps from '../apply-to-yjs';
 import { SharedType } from '../model';
-import { toSlateDoc } from '../utils/convert';
+import { yTextToSlateElement } from '../utils/convert';
 
 const IS_REMOTE: WeakSet<Editor> = new WeakSet();
 const IS_LOCAL: WeakSet<Editor> = new WeakSet();
@@ -13,6 +13,7 @@ const SHARED_TYPES: WeakMap<Editor, SharedType> = new WeakMap();
 
 export interface YjsEditor extends Editor {
   sharedType: SharedType;
+  theme: string | null | undefined
 }
 
 export const YjsEditor = {
@@ -21,8 +22,11 @@ export const YjsEditor = {
    */
   synchronizeValue: (e: YjsEditor): void => {
     Editor.withoutNormalizing(e, () => {
-      e.children = toSlateDoc(e.sharedType);
-      e.onChange();
+      // e.children = toSlateDoc(e.sharedType);
+      // e.onChange();
+      const content = yTextToSlateElement(e.sharedType);
+      e.children = content.node.children;
+      e.theme = content.theme;
     });
   },
 
@@ -41,7 +45,8 @@ export const YjsEditor = {
   applySlateOperations: (editor: YjsEditor, operations: Operation[]): void => {
     YjsEditor.asLocal(editor, () => {
       try {
-        applySlateOps(YjsEditor.sharedType(editor), operations, editor);
+        // applySlateOps(YjsEditor.sharedType(editor), operations, editor);
+        console.log(operations);
       } catch (error) {
         const e: YjsEditor & {
           onError: (errorData: {
@@ -165,7 +170,7 @@ export const YjsEditor = {
 
 export function withYjs<T extends Editor>(
   editor: T,
-  sharedType: SharedType,
+  sharedType: Y.XmlText,
   { isSynchronizeValue = true }: WithYjsOptions = {}
 ): T & YjsEditor {
   const e = editor as T & YjsEditor;
@@ -205,6 +210,8 @@ export function withYjs<T extends Editor>(
 
     onChange();
   };
+
+  
 
   return e;
 }

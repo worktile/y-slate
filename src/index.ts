@@ -1,5 +1,5 @@
 import { applyYjsEvents, translateYjsEvent } from './apply-to-slate';
-import applySlateOps from './apply-to-yjs';
+// import applySlateOps from './apply-to-yjs';
 import { SharedType, SyncElement, SyncNode } from './model';
 import {
   CursorEditor,
@@ -9,7 +9,7 @@ import {
   YjsEditor
 } from './plugin';
 import { withUndoManager } from './plugin/undo-manage';
-import { toSharedType, toSlateDoc, toSyncElement } from './utils';
+import { toSlateDoc, toSyncElement } from './utils';
 
 export {
   SharedType,
@@ -20,11 +20,10 @@ export {
   withCursor,
   withYjs,
   YjsEditor,
-  toSharedType,
   toSlateDoc,
   toSyncElement,
   translateYjsEvent,
   applyYjsEvents,
-  applySlateOps,
+  // applySlateOps,
   withUndoManager
 };
