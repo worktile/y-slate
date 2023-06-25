@@ -2,7 +2,7 @@ import { Path } from 'slate';
 import invariant from 'tiny-invariant';
 import * as Y from 'yjs';
 import { SharedType, SyncElement, SyncNode } from '../model';
-import { toSlateDoc } from '../utils/convert';
+import { toSlateContent } from '../utils/convert';
 
 const isTree = (node: SyncNode): boolean => !!SyncNode.getChildren(node);
 
@@ -19,15 +19,16 @@ export function getTarget(doc: SharedType, path: Path): SyncNode {
     if (!isTree(current) || !children?.get(idx)) {
       throw new TypeError(
         `path ${path.toString()} does not match doc ${JSON.stringify(
-          toSlateDoc(doc)
+          toSlateContent(doc)
         )}`
       );
     }
 
     return children.get(idx);
   }
+  const children = doc.get('key')?.children;
 
-  return path.reduce<SyncNode>(iterate, doc);
+  return path.reduce<SyncNode>(iterate, children!);
 }
 
 function getParentPath(path: Path, level = 1): [number, Path] {
@@ -85,7 +86,7 @@ export function getSyncNodePath(node: SyncNode): Path {
 
   if (parent instanceof Y.Array) {
     invariant(node._item, 'Parent should be associated with a item');
-    return [...getSyncNodePath(parent), getArrayPosition(node._item)];
+    return [...getSyncNodePath(parent as any), getArrayPosition(node._item)];
   }
 
   if (parent instanceof Y.Map) {

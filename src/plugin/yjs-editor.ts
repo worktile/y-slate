@@ -4,7 +4,7 @@ import * as Y from 'yjs';
 import { applyYjsEvents } from '../apply-to-slate';
 import applySlateOps from '../apply-to-yjs';
 import { SharedType } from '../model';
-import { toSlateDoc } from '../utils/convert';
+import { toSlateContent } from '../utils/convert';
 
 const IS_REMOTE: WeakSet<Editor> = new WeakSet();
 const IS_LOCAL: WeakSet<Editor> = new WeakSet();
@@ -13,6 +13,7 @@ const SHARED_TYPES: WeakMap<Editor, SharedType> = new WeakMap();
 
 export interface YjsEditor extends Editor {
   sharedType: SharedType;
+  theme?: any
 }
 
 export const YjsEditor = {
@@ -21,7 +22,11 @@ export const YjsEditor = {
    */
   synchronizeValue: (e: YjsEditor): void => {
     Editor.withoutNormalizing(e, () => {
-      e.children = toSlateDoc(e.sharedType);
+      const node = toSlateContent(e.sharedType);
+      e.children = node.children;
+      e.theme = {
+        themeColorMode: node.theme.theme
+      };
       e.onChange();
     });
   },

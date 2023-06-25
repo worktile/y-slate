@@ -9,7 +9,7 @@ import {
   YjsEditor
 } from './plugin';
 import { withUndoManager } from './plugin/undo-manage';
-import { toSharedType, toSlateDoc, toSyncElement } from './utils';
+import { toSharedType, toSlateContent, toSyncElement } from './utils';
 
 export {
   SharedType,
@@ -21,7 +21,7 @@ export {
   withYjs,
   YjsEditor,
   toSharedType,
-  toSlateDoc,
+  toSlateContent,
   toSyncElement,
   translateYjsEvent,
   applyYjsEvents,

@@ -3,8 +3,13 @@ import * as Y from 'yjs';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type SyncElement = Y.Map<any>;
-export type SharedType = Y.Array<SyncElement>;
-export type SyncNode = SharedType | SyncElement;
+export type SharedChildrenType = Y.Array<SyncElement>;
+export type SharedThemeType = Y.Map<SyncElement>;
+export type SharedType = Y.Map<{
+  children: SharedChildrenType
+  theme: SharedThemeType
+}>;
+export type SyncNode = SharedChildrenType | SyncElement;
 
 export interface Cursor extends Range {
   data: {
@@ -31,6 +36,10 @@ export const SyncElement = {
 
   getChildren(element: SyncElement): Y.Array<SyncElement> | undefined {
     return element?.get('children');
+  },
+
+  getTheme(element: SyncElement): Y.Map<string> | undefined {
+    return element?.get('theme');
   }
 };
 

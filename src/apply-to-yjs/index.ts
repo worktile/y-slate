@@ -24,14 +24,15 @@ const opMappers: OpMapper = {
  */
 export function applySlateOp(
   sharedType: SharedType,
-  op: Operation
+  op: Operation,
+  editor: YjsEditor
 ): SharedType {
   const apply = opMappers[op.type] as ApplyFunc<typeof op>;
   if (!apply) {
     throw new Error(`Unknown operation: ${op.type}`);
   }
 
-  return apply(sharedType, op);
+  return apply(sharedType, op, editor);
 }
 
 /**
@@ -49,7 +50,7 @@ export default function applySlateOps(
 
   if (ops.length > 0) {
     sharedType.doc.transact(() => {
-      ops.forEach((op) => applySlateOp(sharedType, op));
+      ops.forEach((op) => applySlateOp(sharedType, op, editor));
     }, editor);
   }
 
