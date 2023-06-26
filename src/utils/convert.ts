@@ -1,7 +1,6 @@
 import { Element, Node, Path, Text } from 'slate';
 import * as Y from 'yjs';
-import { CustomNode, SharedThemeType, SharedType, SyncElement } from '../model';
-import { YArray } from 'yjs/dist/src/internals';
+import { CustomNode, SharedType, SyncElement } from '../model';
 
 /**
  * Converts a sync element to a slate node
@@ -37,7 +36,7 @@ export function toSlateNode(element: SyncElement): Node {
 export function toTheme(element: SyncElement): string | null {
   const theme = SyncElement.getTheme(element);
   if(theme){
-    return theme.toJSON();
+    return theme.toJSON().theme;
   }
   return null;
 }
@@ -51,7 +50,7 @@ export function toSlateContent(doc: SharedType): any {
   const children = content!.children.map(toSlateNode);
   let theme;
   if (content?.theme) {
-    theme = toTheme(doc.get('key')?.theme!.toJSON());
+    theme = toTheme(content.theme);
   }
   if (theme) {
     return {
@@ -110,12 +109,11 @@ export function toSyncTheme(value: string): SyncElement {
  * @param doc
  */
 export function toSharedType(sharedType: SharedType, content: { children: Node[]; theme?: string }): void {
-  // const doc = new Y.Doc();
   
-  const children = new Y.Array<SyncElement>();
+  const children = new Y.Doc().getArray<SyncElement>();
   children.insert(0, content.children.map(toSyncElement));
   
-  let theme = new Y.Map<SharedThemeType>();
+  let theme = new Y.Doc().getMap();
   if (content.theme) {
     theme.set('theme', toSyncTheme(content.theme));
   }

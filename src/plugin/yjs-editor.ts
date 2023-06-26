@@ -24,9 +24,11 @@ export const YjsEditor = {
     Editor.withoutNormalizing(e, () => {
       const node = toSlateContent(e.sharedType);
       e.children = node.children;
-      e.theme = {
-        themeColorMode: node.theme.theme
-      };
+      if(node.theme){
+        e.theme = {
+          themeColorMode: node.theme
+        };
+      }
       e.onChange();
     });
   },
