@@ -18,17 +18,17 @@ export const CursorEditor = {
   },
 
   updateCursor: (editor: CursorEditor): void => {
-    const sharedType = YjsEditor.sharedType(editor);
+    const SharedDoc = YjsEditor.sharedDoc(editor);
     const { selection } = editor;
 
     try {
       const anchor =
         selection &&
-        absolutePositionToRelativePosition(sharedType, selection.anchor);
+        absolutePositionToRelativePosition(SharedDoc, selection.anchor);
 
       const focus =
         selection &&
-        absolutePositionToRelativePosition(sharedType, selection.focus);
+        absolutePositionToRelativePosition(SharedDoc, selection.focus);
 
       const awareness = CursorEditor.awareness(editor);
       awareness.setLocalState({ ...awareness.getLocalState(), anchor, focus });

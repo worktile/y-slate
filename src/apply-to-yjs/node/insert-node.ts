@@ -1,19 +1,19 @@
 import { InsertNodeOperation } from 'slate';
 import invariant from 'tiny-invariant';
-import { SharedType, SyncNode } from '../../model';
+import { SharedDoc, SyncNode } from '../../model';
 import { getParent } from '../../path';
 import { toSyncElement } from '../../utils/convert';
 
 /**
- * Applies an insert node operation to a SharedType.
+ * Applies an insert node operation to a SharedDoc.
  *
  * @param doc
  * @param op
  */
 export default function insertNode(
-  doc: SharedType,
+  doc: SharedDoc,
   op: InsertNodeOperation
-): SharedType {
+): SharedDoc {
   const [parent, index] = getParent(doc, op.path);
 
   const children = SyncNode.getChildren(parent);

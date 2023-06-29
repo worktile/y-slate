@@ -1,19 +1,19 @@
 import { MergeNodeOperation } from 'slate';
 import invariant from 'tiny-invariant';
-import { SharedType, SyncNode } from '../../model';
+import { SharedDoc, SyncNode } from '../../model';
 import { getParent } from '../../path';
 import { cloneSyncElement } from '../../utils';
 
 /**
- * Applies a merge node operation to a SharedType.
+ * Applies a merge node operation to a SharedDoc.
  *
  * @param doc
  * @param op
  */
 export default function mergeNode(
-  doc: SharedType,
+  doc: SharedDoc,
   op: MergeNodeOperation
-): SharedType {
+): SharedDoc {
   const [parent, index] = getParent(doc, op.path);
 
   const children = SyncNode.getChildren(parent);

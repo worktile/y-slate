@@ -1,11 +1,16 @@
 import { Operation } from 'slate';
-import { SharedType } from '../model';
+import { ThemeOperation } from './theme/set-theme';
+import { YjsEditor } from '../plugin';
 
-export type ApplyFunc<O extends Operation = Operation> = (
-  sharedType: SharedType,
-  op: O
-) => SharedType;
+export type MergeOperation = Operation | ThemeOperation;
 
-export type OpMapper<O extends Operation = Operation> = {
-  [K in O['type']]: O extends { type: K } ? ApplyFunc<O> : never;
+export type ApplyFunc<O extends MergeOperation = MergeOperation, T = any > = (
+  sharedContent: T,
+  op: O,
+  editor?: YjsEditor
+) => T;
+
+export type OpMapper<O extends MergeOperation = MergeOperation, T = any> = {
+  [K in O['type']]: O extends { type: K } ? ApplyFunc<O, T> : never;
 };
+

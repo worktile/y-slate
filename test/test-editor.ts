@@ -34,8 +34,8 @@ export const TestEditor = {
    */
   applyYjsUpdateToYjs: (e: TestEditor, update: Uint8Array): void => {
     e.shouldCaptureYjsUpdates = false;
-    invariant(e.sharedType.doc, 'Shared type should be bound to a document');
-    Y.applyUpdate(e.sharedType.doc, update);
+    invariant(e.sharedDoc.doc, 'Shared type should be bound to a document');
+    Y.applyUpdate(e.sharedDoc.doc, update);
     e.shouldCaptureYjsUpdates = true;
   },
 
@@ -122,8 +122,8 @@ export const TestEditor = {
 export function withTest<T extends YjsEditor>(editor: T): T & TestEditor {
   const e = editor as T & TestEditor;
 
-  invariant(e.sharedType.doc, 'Shared type should be bound to a document');
-  e.sharedType.doc.on('update', (updateMessage: Uint8Array) => {
+  invariant(e.sharedDoc.doc, 'Shared type should be bound to a document');
+  e.sharedDoc.doc.on('update', (updateMessage: Uint8Array) => {
     TestEditor.captureYjsUpdate(e, updateMessage);
   });
 

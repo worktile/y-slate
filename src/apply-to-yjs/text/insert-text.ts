@@ -1,18 +1,18 @@
 import { InsertTextOperation } from 'slate';
 import invariant from 'tiny-invariant';
-import { SharedType, SyncElement } from '../../model';
+import { SharedDoc, SyncElement } from '../../model';
 import { getTarget } from '../../path';
 
 /**
- * Applies a insert text operation to a SharedType.
+ * Applies a insert text operation to a SharedDoc.
  *
  * @param doc
  * @param op
  */
 export default function insertText(
-  doc: SharedType,
+  doc: SharedDoc,
   op: InsertTextOperation
-): SharedType {
+): SharedDoc {
   const node = getTarget(doc, op.path) as SyncElement;
   const nodeText = SyncElement.getText(node);
 

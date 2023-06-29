@@ -21,7 +21,8 @@ export function withUndoManager<T extends YjsEditor>(
   const e = editor as T & YjsUndoEditor;
   const { onChange } = e;
   let previousSelection: { anchorRelative: Y.RelativePosition, focusRelative: Y.RelativePosition } | null;
-  const undoManager = new Y.UndoManager(e.sharedType, {
+  const typeScope = e.sharedTheme? [e.sharedDoc, e.sharedTheme]: e.sharedDoc;
+  const undoManager = new Y.UndoManager(typeScope, {
     ...options,
     trackedOrigins: new Set([editor].concat(options.trackedOrigins))
   });
@@ -33,8 +34,8 @@ export function withUndoManager<T extends YjsEditor>(
         const lastOperation = e.operations[e.operations.length - 1];
         if (lastOperation && lastOperation.type === 'set_selection' && lastOperation.newProperties) {
           const { anchor, focus } = lastOperation.newProperties as any;
-          const anchorRelative = anchor && absolutePositionToRelativePosition(e.sharedType, anchor);
-          const focusRelative = focus && absolutePositionToRelativePosition(e.sharedType, focus);
+          const anchorRelative = anchor && absolutePositionToRelativePosition(e.sharedDoc, anchor);
+          const focusRelative = focus && absolutePositionToRelativePosition(e.sharedDoc, focus);
           if (anchorRelative && focusRelative) {
             previousSelection = {
               anchorRelative,
@@ -58,7 +59,7 @@ export function withUndoManager<T extends YjsEditor>(
     }
   };
   undoManager.on('stack-item-added', (event: any) => {
-    if (event.changedParentTypes.has(e.sharedType) && previousSelection) {
+    if (event.changedParentTypes.has(e.sharedDoc) && previousSelection) {
       event.stackItem.meta.set(e, previousSelection);
       previousSelection = null;
     }
@@ -67,8 +68,8 @@ export function withUndoManager<T extends YjsEditor>(
   undoManager.on('stack-item-popped', (event: any) => {
     const selection = event.stackItem.meta.get(e);
     if (selection) {
-      const anchor = relativePositionToAbsolutePosition(e.sharedType, selection.anchorRelative);
-      const focus = relativePositionToAbsolutePosition(e.sharedType, selection.focusRelative);
+      const anchor = relativePositionToAbsolutePosition(e.sharedDoc, selection.anchorRelative);
+      const focus = relativePositionToAbsolutePosition(e.sharedDoc, selection.focusRelative);
       if (anchor?.path && focus?.path && Editor.hasPath(e, anchor.path as Path) && Editor.hasPath(e, focus.path as Path)) {
         Transforms.setSelection(e, {
           anchor: anchor as BasePoint,

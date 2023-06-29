@@ -1,6 +1,6 @@
 import { Element, Node, Path, Text } from 'slate';
 import * as Y from 'yjs';
-import { CustomNode, SharedType, SyncElement } from '../model';
+import { CustomNode, SharedDoc, SharedTheme, SyncElement, ThemeType } from '../model';
 
 /**
  * Converts a sync element to a slate node
@@ -29,11 +29,21 @@ export function toSlateNode(element: SyncElement): Node {
 }
 
 /**
- * Converts a SharedType to a Slate doc
+ * Converts a SharedDoc to a Slate doc
  * @param doc
  */
-export function toSlateDoc(doc: SharedType): Node[] {
+export function toSlateDoc(doc: SharedDoc): Node[] {
   return doc.map(toSlateNode);
+}
+
+export function toSlateTheme(sharedTheme: SharedTheme) {
+  const themeValue = sharedTheme.get('theme');
+  const theme = SyncElement.getTheme(themeValue!);
+  const node: Partial<ThemeType> = {};
+  if (theme !== undefined) {
+    node.themeColorMode = theme.toString();
+  }
+  return node;
 }
 
 /**
@@ -65,19 +75,28 @@ export function toSyncElement(node: Node): SyncElement {
   return element;
 }
 
-/**
- * Converts all elements int a Slate doc to SyncElements and adds them
- * to the SharedType
- *
- * @param sharedType
- * @param doc
- */
-export function toSharedType(sharedType: SharedType, doc: Node[]): void {
-  sharedType.insert(0, doc.map(toSyncElement));
+export function toSyncTheme(theme: ThemeType): SyncElement {
+  const element: SyncElement = new Y.Map();
+  const themeContent = new Y.Text(theme.themeColorMode);
+  element.set('themeColorMode', themeContent);
+  return element;
+}
+
+
+export function toSharedContent(
+  sharedDoc: SharedDoc,
+  doc: Node[],
+  sharedTheme?: SharedTheme,
+  theme?: ThemeType
+): void {
+  sharedDoc.insert(0, doc.map(toSyncElement));
+  if (sharedTheme && theme) {
+    sharedTheme.set('theme', toSyncTheme(theme));
+  }
 }
 
 /**
- * Converts a SharedType path the a slate path
+ * Converts a SharedDoc path the a slate path
  *
  * @param path
  */

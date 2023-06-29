@@ -6,8 +6,9 @@ import moveNode from './move-node';
 import removeNode from './remove-node';
 import setNode from './set-node';
 import splitNode from './split-node';
+import { SharedDoc } from '../../model';
 
-const mapper: OpMapper<NodeOperation> = {
+const mapper: OpMapper<NodeOperation, SharedDoc> = {
   insert_node: insertNode,
   merge_node: mergeNode,
   move_node: moveNode,

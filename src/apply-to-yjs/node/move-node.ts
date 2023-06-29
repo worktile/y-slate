@@ -1,19 +1,19 @@
 import { MoveNodeOperation } from 'slate';
 import invariant from 'tiny-invariant';
-import { SharedType, SyncNode } from '../../model';
+import { SharedDoc, SyncNode } from '../../model';
 import { getParent } from '../../path';
 import { cloneSyncElement } from '../../utils';
 
 /**
- * Applies a move node operation to a SharedType.
+ * Applies a move node operation to a SharedDoc.
  *
  * @param doc
  * @param op
  */
 export default function moveNode(
-  doc: SharedType,
+  doc: SharedDoc,
   op: MoveNodeOperation
-): SharedType {
+): SharedDoc {
   const [from, fromIndex] = getParent(doc, op.path);
   const [to, toIndex] = getParent(doc, op.newPath);
 

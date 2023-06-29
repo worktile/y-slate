@@ -1,18 +1,18 @@
 import { RemoveNodeOperation } from 'slate';
 import invariant from 'tiny-invariant';
-import { SharedType, SyncNode } from '../../model';
+import { SharedDoc, SyncNode } from '../../model';
 import { getParent } from '../../path';
 
 /**
- * Applies a remove node operation to a SharedType.
+ * Applies a remove node operation to a SharedDoc.
  *
  * @param doc
  * @param op
  */
 export default function removeNode(
-  doc: SharedType,
+  doc: SharedDoc,
   op: RemoveNodeOperation
-): SharedType {
+): SharedDoc {
   const [parent, index] = getParent(doc, op.path);
 
   if (SyncNode.getText(parent) !== undefined) {

@@ -1,7 +1,7 @@
 import { Path } from 'slate';
 import invariant from 'tiny-invariant';
 import * as Y from 'yjs';
-import { SharedType, SyncElement, SyncNode } from '../model';
+import { SharedDoc, SyncElement, SyncNode } from '../model';
 import { toSlateDoc } from '../utils/convert';
 
 const isTree = (node: SyncNode): boolean => !!SyncNode.getChildren(node);
@@ -12,7 +12,7 @@ const isTree = (node: SyncNode): boolean => !!SyncNode.getChildren(node);
  * @param doc
  * @param path
  */
-export function getTarget(doc: SharedType, path: Path): SyncNode {
+export function getTarget(doc: SharedDoc, path: Path): SyncNode {
   function iterate(current: SyncNode, idx: number) {
     const children = SyncNode.getChildren(current);
 
@@ -39,7 +39,7 @@ function getParentPath(path: Path, level = 1): [number, Path] {
 }
 
 export function getParent(
-  doc: SharedType,
+  doc: SharedDoc,
   path: Path,
   level = 1
 ): [SyncNode, number] {

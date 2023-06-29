@@ -1,8 +1,10 @@
-import { Editor, Operation } from 'slate';
+import { Editor } from 'slate';
 import * as Y from 'yjs';
 import translateArrayEvent from './array-event';
 import translateMapEvent from './map-event';
 import translateTextEvent from './text-event';
+import { MergeOperation } from '../apply-to-yjs/types';
+import { YjsEditor } from '../plugin';
 
 /**
  * Translates a Yjs event into slate editor operations.
@@ -12,7 +14,7 @@ import translateTextEvent from './text-event';
 export function translateYjsEvent(
   editor: Editor,
   event: Y.YEvent
-): Operation[] {
+): MergeOperation[] {
   if (event instanceof Y.YArrayEvent) {
     return translateArrayEvent(editor, event);
   }
@@ -33,10 +35,10 @@ export function translateYjsEvent(
  *
  * @param event
  */
-export function applyYjsEvents(editor: Editor, events: Y.YEvent[]): void {
+export function applyYjsEvents(editor: YjsEditor, events: Y.YEvent[]): void {
   Editor.withoutNormalizing(editor, () => {
     events.forEach((event) =>
-      translateYjsEvent(editor, event).forEach(editor.apply)
+      translateYjsEvent(editor, event).forEach(editor.apply as any)
     );
   });
 }

@@ -15,21 +15,21 @@ export const useCursors = (
 
   editor.awareness.on('update', () => {
     cursors = Array.from(editor.awareness.getStates())
-      .filter(([clientId]) => clientId !== editor.sharedType.doc?.clientID)
+      .filter(([clientId]) => clientId !== editor.sharedDoc.doc?.clientID)
       .map(([, awareness]) => {
         let anchor = null;
         let focus = null;
 
         if (awareness.anchor) {
           anchor = relativePositionToAbsolutePosition(
-            editor.sharedType,
+            editor.sharedDoc,
             awareness.anchor
           );
         }
 
         if (awareness.focus) {
           focus = relativePositionToAbsolutePosition(
-            editor.sharedType,
+            editor.sharedDoc,
             awareness.focus
           );
         }
