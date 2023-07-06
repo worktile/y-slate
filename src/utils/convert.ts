@@ -82,17 +82,8 @@ export function toSyncTheme(theme: ThemeType): SyncElement {
   return element;
 }
 
-
-export function toSharedContent(
-  sharedDoc: SharedDoc,
-  doc: Node[],
-  sharedTheme?: SharedTheme,
-  theme?: ThemeType
-): void {
+export function toSharedContent(sharedDoc: SharedDoc, doc: Node[]): void {
   sharedDoc.insert(0, doc.map(toSyncElement));
-  if (sharedTheme && theme) {
-    sharedTheme.set('theme', toSyncTheme(theme));
-  }
 }
 
 /**

@@ -3,7 +3,7 @@ import invariant from 'tiny-invariant';
 import * as Y from 'yjs';
 import { applyYjsEvents } from '../apply-to-slate';
 import { SharedDoc, SharedTheme, ThemeType } from '../model';
-import { toSlateDoc, toSlateTheme } from '../utils/convert';
+import { toSlateDoc } from '../utils/convert';
 import { MergeOperation } from '../apply-to-yjs/types';
 import { ThemeOperation } from '../apply-to-yjs/theme/set-theme';
 import applySlateOp from '../apply-to-yjs';
@@ -27,9 +27,9 @@ export const YjsEditor = {
   synchronizeValue: (e: YjsEditor): void => {
     Editor.withoutNormalizing(e, () => {
       e.children = toSlateDoc(e.sharedDoc);
-      if (e.sharedTheme) {
-        e.theme = toSlateTheme(e.sharedTheme) as ThemeType;
-      }
+      // if (e.sharedTheme) {
+      //   e.theme = toSlateTheme(e.sharedTheme) as ThemeType;
+      // }
       e.onChange();
     });
   },

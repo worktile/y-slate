@@ -1,8 +1,20 @@
-import { createEditor, Node, Text } from 'slate';
+import { Node, Text } from 'slate';
 import * as Y from 'yjs';
-import { SharedDoc, SyncElement, toSlateDoc, withYjs } from '../src';
+import { SharedDoc, toSlateDoc } from '../src';
 import { toSharedContent } from '../src/utils';
-import { withTest } from './test-editor';
+import { TransformFunc } from './test-editor';
+
+export interface Test {
+  name: string;
+  transform: TransformFunc;
+}
+
+export const initialState: Node[] = [
+  createNode('paragraph', 'alfa bravo'),
+  createNode('paragraph', 'charlie delta'),
+  createNode('paragraph', 'echo foxtrot'),
+  createNode('paragraph', 'golf hotel')
+];
 
 export function createText(text = ''): Text {
   return {
@@ -40,16 +52,4 @@ export function wait(ms = 0): Promise<void> {
   return new Promise<void>((resolve) => setTimeout(resolve, ms));
 }
 
-export function createTestEditor(value?: Node[]): any {
-  const doc = new Y.Doc();
-  const syncType = doc.getArray<SyncElement>('content');
-  const syncTheme = doc.getMap('theme');
 
-  if (value) {
-    toSharedContent(syncType, value, syncTheme, {
-      themeColorMode: 'default'
-    });
-  }
-
-  return withTest(withYjs(createEditor(), syncType, syncTheme));
-}

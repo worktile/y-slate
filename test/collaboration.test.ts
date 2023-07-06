@@ -1,7 +1,7 @@
 import { toSlateDoc } from '../src';
 import { CustomNode } from '../src/model';
-import { TestEditor, TransformFunc } from './test-editor';
-import { createNode, createTestEditor, createValue, wait } from './utils';
+import { TestEditor, TransformFunc, createTestEditor } from './test-editor';
+import { createNode, createValue, wait } from './utils';
 
 const tests = [
   [
@@ -347,6 +347,7 @@ describe('slate operations propagate between editors', () => {
       // Create two editors.
       const src = createTestEditor();
       const dst = createTestEditor();
+      await wait();
 
       // Set initial state for src editor, propagate changes to dst editor.
       TestEditor.applyTransform(
@@ -361,8 +362,8 @@ describe('slate operations propagate between editors', () => {
 
       // Verify initial states.
       expect(src.children).toEqual(input);
-      expect(toSlateDoc(src.sharedType)).toEqual(input);
-      expect(toSlateDoc(dst.sharedType)).toEqual(input);
+      expect(toSlateDoc(src.sharedDoc)).toEqual(input);
+      expect(toSlateDoc(dst.sharedDoc)).toEqual(input);
       expect(dst.children).toEqual(input);
 
       // Allow for multiple rounds of applying transforms and verifying state.
@@ -382,8 +383,8 @@ describe('slate operations propagate between editors', () => {
 
         // Verify final states.
         expect(src.children).toEqual(output);
-        expect(toSlateDoc(src.sharedType)).toEqual(output);
-        expect(toSlateDoc(dst.sharedType)).toEqual(output);
+        expect(toSlateDoc(src.sharedDoc)).toEqual(output);
+        expect(toSlateDoc(dst.sharedDoc)).toEqual(output);
         expect(dst.children).toEqual(output);
       }
     });

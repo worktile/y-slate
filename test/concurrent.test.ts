@@ -1,19 +1,7 @@
 import { Node } from 'slate';
 import { toSlateDoc } from '../src';
-import { TestEditor, TransformFunc } from './test-editor';
-import { createNode, createTestEditor, wait } from './utils';
-
-const initialState: Node[] = [
-  createNode('paragraph', 'alfa bravo'),
-  createNode('paragraph', 'charlie delta'),
-  createNode('paragraph', 'echo foxtrot'),
-  createNode('paragraph', 'golf hotel')
-];
-
-interface Test {
-  name: string;
-  transform: TransformFunc;
-}
+import { TestEditor, createTestEditor } from './test-editor';
+import { Test, createNode, initialState, wait } from './utils';
 
 const tests: Test[] = [
   {
@@ -175,6 +163,7 @@ const runOneTest = async (ti: Test, tj: Test) => {
   // Create two editors.
   const ei = createTestEditor();
   const ej = createTestEditor();
+  await wait();
 
   // Set initial state for 1st editor, propagate changes to 2nd.
   TestEditor.applyTransform(
@@ -189,7 +178,7 @@ const runOneTest = async (ti: Test, tj: Test) => {
 
   // Verify initial states match.
   expect(ei.children).toEqual(ej.children);
-  expect(toSlateDoc(ei.sharedType)).toEqual(toSlateDoc(ej.sharedType));
+  expect(toSlateDoc(ei.sharedDoc)).toEqual(toSlateDoc(ej.sharedDoc));
 
   // Apply 1st transform to 1st editor, capture updates.
   TestEditor.applyTransform(ei, ti.transform);
@@ -210,7 +199,7 @@ const runOneTest = async (ti: Test, tj: Test) => {
 
   // Verify final states match.
   expect(ei.children).toEqual(ej.children);
-  expect(toSlateDoc(ei.sharedType)).toEqual(toSlateDoc(ej.sharedType));
+  expect(toSlateDoc(ei.sharedDoc)).toEqual(toSlateDoc(ej.sharedDoc));
 };
 
 describe('model concurrent edits in separate editors', () => {
