@@ -27,9 +27,6 @@ export const YjsEditor = {
   synchronizeValue: (e: YjsEditor): void => {
     Editor.withoutNormalizing(e, () => {
       e.children = toSlateDoc(e.sharedDoc);
-      // if (e.sharedTheme) {
-      //   e.theme = toSlateTheme(e.sharedTheme) as ThemeType;
-      // }
       e.onChange();
     });
   },
@@ -196,9 +193,6 @@ export function withYjs<T extends Editor>(
       Editor.setNormalizing(e, false);
       if (!isInitialized) {
         e.children = e.sharedDoc.toJSON();
-        if (sharedTheme) {
-          e.theme = e.sharedTheme!.get('theme').toJSON();
-        }
         e.onChange();
         isInitialized = true;
       } else {

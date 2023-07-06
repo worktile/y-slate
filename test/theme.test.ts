@@ -12,7 +12,7 @@ const tests: Test[] = [
   }
 ];
 
-const runThemeTest = async (ti: Test, tj: Test) => {
+const runThemeTest = async (tj: Test) => {
   const theme = {
     themeColorMode: 'default'
   };
@@ -21,10 +21,7 @@ const runThemeTest = async (ti: Test, tj: Test) => {
   const ej = createTestEditor(theme);
   await wait();
 
-  TestEditor.applyTransform(
-    ei,
-    tj.transform
-  );
+  TestEditor.applyTransform(ei, tj.transform);
   await wait();
 
   let updates = TestEditor.getCapturedYjsUpdates(ei);
@@ -35,7 +32,6 @@ const runThemeTest = async (ti: Test, tj: Test) => {
   expect(ei.theme).toEqual(ej.theme);
   expect(toSlateDoc(ei.sharedDoc)).toEqual(toSlateDoc(ej.sharedDoc));
   expect(toSlateTheme(ei.sharedTheme!)).toEqual(toSlateTheme(ej.sharedTheme!));
-
 
   TestEditor.applyTransform(ei, TestEditor.makeInsertNodes(initialState, [0]));
   await wait();
@@ -54,7 +50,7 @@ describe('sync theme when set', () => {
     describe(`Test:${test.name}`, () => {
       tests.forEach((concurrentTest) => {
         it(`Concurrent:${concurrentTest.name}`, async () => {
-          await runThemeTest(test, concurrentTest);
+          await runThemeTest(concurrentTest);
         });
       });
     });
