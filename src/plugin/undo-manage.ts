@@ -12,7 +12,7 @@ export interface YjsUndoEditor extends YjsEditor {
 
 export function withUndoManager<T extends YjsEditor>(
   editor: T,
-  typeScope: Y.AbstractType<any> | Y.AbstractType<any>[],
+  typeScope?: Y.AbstractType<any> | Y.AbstractType<any>[],
   options = {
     trackedOrigins: [],
     captureTimeout: 300,
