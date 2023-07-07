@@ -12,6 +12,7 @@ export interface YjsUndoEditor extends YjsEditor {
 
 export function withUndoManager<T extends YjsEditor>(
   editor: T,
+  typeScope: Y.AbstractType<any> | Y.AbstractType<any>[] = editor.sharedType,
   options = {
     trackedOrigins: [],
     captureTimeout: 300,
@@ -21,7 +22,7 @@ export function withUndoManager<T extends YjsEditor>(
   const e = editor as T & YjsUndoEditor;
   const { onChange } = e;
   let previousSelection: { anchorRelative: Y.RelativePosition, focusRelative: Y.RelativePosition } | null;
-  const undoManager = new Y.UndoManager(e.sharedType, {
+  const undoManager = new Y.UndoManager(typeScope, {
     ...options,
     trackedOrigins: new Set([editor].concat(options.trackedOrigins))
   });

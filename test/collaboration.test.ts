@@ -347,6 +347,7 @@ describe('slate operations propagate between editors', () => {
       // Create two editors.
       const src = createTestEditor();
       const dst = createTestEditor();
+      await wait();
 
       // Set initial state for src editor, propagate changes to dst editor.
       TestEditor.applyTransform(
