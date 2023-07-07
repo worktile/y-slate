@@ -12,7 +12,7 @@ export interface YjsUndoEditor extends YjsEditor {
 
 export function withUndoManager<T extends YjsEditor>(
   editor: T,
-  typeScope: Y.AbstractType<any> | Y.AbstractType<any>[] = editor.sharedType,
+  typeScope: Y.AbstractType<any> | Y.AbstractType<any>[],
   options = {
     trackedOrigins: [],
     captureTimeout: 300,
@@ -21,8 +21,8 @@ export function withUndoManager<T extends YjsEditor>(
 ): T & YjsUndoEditor {
   const e = editor as T & YjsUndoEditor;
   const { onChange } = e;
-  let previousSelection: { anchorRelative: Y.RelativePosition, focusRelative: Y.RelativePosition } | null;
-  const undoManager = new Y.UndoManager(typeScope, {
+  let previousSelection: { anchorRelative: Y.RelativePosition; focusRelative: Y.RelativePosition } | null;
+  const undoManager = new Y.UndoManager(typeScope || e.sharedType, {
     ...options,
     trackedOrigins: new Set([editor].concat(options.trackedOrigins))
   });
@@ -45,12 +45,7 @@ export function withUndoManager<T extends YjsEditor>(
         }
       } catch (error) {
         const e: YjsEditor & {
-          onError: (errorData: {
-            code?: number,
-            name?: string,
-            nativeError?: any,
-            data?: Descendant[]
-          }) => void
+          onError: (errorData: { code?: number; name?: string; nativeError?: any; data?: Descendant[] }) => void;
         } = editor as any;
         if (e.onError) {
           e.onError({ code: 10004, name: 'get previous relative', nativeError: error });
@@ -70,7 +65,12 @@ export function withUndoManager<T extends YjsEditor>(
     if (selection) {
       const anchor = relativePositionToAbsolutePosition(e.sharedType, selection.anchorRelative);
       const focus = relativePositionToAbsolutePosition(e.sharedType, selection.focusRelative);
-      if (anchor?.path && focus?.path && Editor.hasPath(e, anchor.path as Path) && Editor.hasPath(e, focus.path as Path)) {
+      if (
+        anchor?.path &&
+        focus?.path &&
+        Editor.hasPath(e, anchor.path as Path) &&
+        Editor.hasPath(e, focus.path as Path)
+      ) {
         Transforms.setSelection(e, {
           anchor: anchor as BasePoint,
           focus: focus as BasePoint
@@ -94,5 +94,4 @@ export function withUndoManager<T extends YjsEditor>(
   };
 
   return e;
-
 }
