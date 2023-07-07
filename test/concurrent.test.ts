@@ -175,6 +175,7 @@ const runOneTest = async (ti: Test, tj: Test) => {
   // Create two editors.
   const ei = createTestEditor();
   const ej = createTestEditor();
+  await wait();
 
   // Set initial state for 1st editor, propagate changes to 2nd.
   TestEditor.applyTransform(
