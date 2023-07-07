@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.16](https://github.com/worktile/slate-yjs/compare/v0.1.15...v0.1.16) (2023-07-07)
+
+
+### Bug Fixes
+
+* adjust changelog ([4d27490](https://github.com/worktile/slate-yjs/commit/4d27490244f1371b869036ae3fbad732baa2b8fe))
+* **apply:** return null when apply is not exit in slate operation #WIK-12562 ([d03e0f9](https://github.com/worktile/slate-yjs/commit/d03e0f9c99779d873b972de83caf1f21b42f1e59)), closes [#WIK-12562](https://github.com/worktile/slate-yjs/issues/WIK-12562)
+
 ### 0.1.15 (2023-07-07)
 
 
