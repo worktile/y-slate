@@ -170,7 +170,6 @@ export function withYjs<T extends Editor>(
 ): T & YjsEditor {
   const e = editor as T & YjsEditor;
   let isInitialized = false;
-  let canApplySlateOperations = false;
 
   e.sharedType = sharedType;
   SHARED_TYPES.set(editor, sharedType);
@@ -179,7 +178,6 @@ export function withYjs<T extends Editor>(
     setTimeout(() => {
       YjsEditor.synchronizeValue(e);
       isInitialized = true;
-      canApplySlateOperations = true;
     });
   }
 
@@ -192,7 +190,6 @@ export function withYjs<T extends Editor>(
         isInitialized = true;
         setTimeout(()=>{
           e.onChange();
-          canApplySlateOperations = true;
         });
       } else {
         YjsEditor.applyYjsEvents(e, events);
@@ -204,7 +201,7 @@ export function withYjs<T extends Editor>(
   const { onChange } = editor;
 
   e.onChange = () => {
-    if (!YjsEditor.isRemote(e) && !YjsEditor.isUndo(e) && isInitialized && canApplySlateOperations) {
+    if (!YjsEditor.isRemote(e) && !YjsEditor.isUndo(e) && isInitialized) {
       YjsEditor.applySlateOperations(e, e.operations);
     }
 
