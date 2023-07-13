@@ -187,8 +187,10 @@ export function withYjs<T extends Editor>(
       Editor.setNormalizing(e, false);
       if (!isInitialized) {
         e.children = e.sharedType.toJSON();
-        e.onChange();
         isInitialized = true;
+        setTimeout(()=>{
+          e.onChange();
+        });
       } else {
         YjsEditor.applyYjsEvents(e, events);
       }
