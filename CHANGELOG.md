@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.17](https://github.com/worktile/slate-yjs/compare/v0.1.16...v0.1.17) (2023-07-13)
+
+
+### Bug Fixes
+
+* delay execution onChange #WIK-12573 ([#34](https://github.com/worktile/slate-yjs/issues/34)) ([52f55f7](https://github.com/worktile/slate-yjs/commit/52f55f7d2526015f1cd9dddc10ef33e7163256a7)), closes [#WIK-12573](https://github.com/worktile/slate-yjs/issues/WIK-12573)
+
 ### [0.1.16](https://github.com/worktile/slate-yjs/compare/v0.1.15...v0.1.16) (2023-07-07)
 
 
