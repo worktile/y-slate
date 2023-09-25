@@ -15,7 +15,7 @@ export default function setNode(
   const node = getTarget(doc, op.path) as SyncElement;
 
   Object.entries(op.newProperties).forEach(([key, value]) => {
-    if (key === 'children' || key === 'text') {
+    if (key === 'children') {
       throw new Error(`Cannot set the "${key}" property of nodes!`);
     }
     if (value == null) {

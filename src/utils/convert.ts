@@ -57,7 +57,7 @@ export function toSyncElement(node: Node): SyncElement {
   }
 
   Object.entries(node).forEach(([key, value]) => {
-    if (key !== 'children' && !isSlateText(value)) {
+    if (key !== 'children' && !isSlateText(node)) {
       element.set(key, value);
     }
   });
