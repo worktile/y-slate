@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.18](https://github.com/worktile/slate-yjs/compare/v0.1.17...v0.1.18) (2023-09-25)
+
+
+### Bug Fixes
+
+* **core:** fix text distinguish error in plait draw ([#36](https://github.com/worktile/slate-yjs/issues/36)) ([8824bb3](https://github.com/worktile/slate-yjs/commit/8824bb3f804338dd4d8e25f832fb1e26fbf26e1b))
+
 ### [0.1.17](https://github.com/worktile/slate-yjs/compare/v0.1.16...v0.1.17) (2023-07-13)
 
 
