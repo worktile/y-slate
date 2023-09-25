@@ -51,19 +51,23 @@ export function toSyncElement(node: Node): SyncElement {
     element.set('children', childContainer);
   }
 
-  if (Text.isText(node)) {
+  if (isSlateText(node)) {
     const textElement = new Y.Text(node.text);
     element.set('text', textElement);
   }
 
   Object.entries(node).forEach(([key, value]) => {
-    if (key !== 'children' && key !== 'text') {
+    if (key !== 'children' && !isSlateText(value)) {
       element.set(key, value);
     }
   });
 
   return element;
 }
+
+export const isSlateText = (node: Node): node is Text => {
+  return Text.isText(node) && typeof node.text === 'string';
+};
 
 /**
  * Converts all elements int a Slate doc to SyncElements and adds them
