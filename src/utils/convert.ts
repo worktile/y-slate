@@ -12,7 +12,7 @@ export function toSlateNode(element: SyncElement): Node {
   const children = SyncElement.getChildren(element);
 
   const node: Partial<CustomNode> = {};
-  if (text !== undefined) {
+  if (text !== undefined && text instanceof Y.Text) {
     node.text = text.toString();
   }
   if (children !== undefined) {
@@ -20,7 +20,7 @@ export function toSlateNode(element: SyncElement): Node {
   }
 
   Array.from(element.entries()).forEach(([key, value]) => {
-    if (key !== 'children' && key !== 'text') {
+    if (key !== 'children' &&  (key !== 'text' || (key ==='text' && !(value instanceof Y.Text)))) {
       node[key] = value;
     }
   });

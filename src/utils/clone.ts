@@ -7,7 +7,7 @@ export default function cloneSyncElement(element: SyncElement): SyncElement {
 
   const clone = new Y.Map();
 
-  if (text !== undefined) {
+  if (text !== undefined && text instanceof Y.Text) {
     const textElement = new Y.Text(text.toString());
     clone.set('text', textElement);
   }
@@ -20,7 +20,7 @@ export default function cloneSyncElement(element: SyncElement): SyncElement {
   }
 
   Array.from(element.entries()).forEach(([key, value]) => {
-    if (key !== 'children' && key !== 'text') {
+    if (key !== 'children' && (key !== 'text' || (key ==='text' && !(value instanceof Y.Text)))) {
       clone.set(key, value);
     }
   });
