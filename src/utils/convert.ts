@@ -43,6 +43,7 @@ export function toSlateDoc(doc: SharedType): Node[] {
  */
 export function toSyncElement(node: Node): SyncElement {
   const element: SyncElement = new Y.Map();
+  let hasSetText = false;
 
   if (Element.isElement(node)) {
     const childElements = node.children.map(toSyncElement);
@@ -54,10 +55,11 @@ export function toSyncElement(node: Node): SyncElement {
   if (isSlateText(node)) {
     const textElement = new Y.Text(node.text);
     element.set('text', textElement);
+    hasSetText = true;
   }
 
   Object.entries(node).forEach(([key, value]) => {
-    if (key !== 'children' && !isSlateText({[key]: value})) {
+    if (key !== 'children' && (!hasSetText || key !=='text')) {
       element.set(key, value);
     }
   });
@@ -65,7 +67,7 @@ export function toSyncElement(node: Node): SyncElement {
   return element;
 }
 
-export const isSlateText = (node: any): node is Text => {
+export const isSlateText = (node: Node): node is Text => {
   return Text.isText(node) && typeof node.text === 'string';
 };
 
