@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.21](https://github.com/worktile/slate-yjs/compare/v0.1.20...v0.1.21) (2023-10-13)
+
+
+### Bug Fixes
+
+* **utils:** modify isSlateText value #WIK-13590 ([#42](https://github.com/worktile/slate-yjs/issues/42)) ([712c348](https://github.com/worktile/slate-yjs/commit/712c348804d2a074b3ec192e84a8df904314224e)), closes [#WIK-13590](https://github.com/worktile/slate-yjs/issues/WIK-13590)
+
 ### [0.1.20](https://github.com/worktile/slate-yjs/compare/v0.1.19...v0.1.20) (2023-09-26)
 
 
