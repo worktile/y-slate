@@ -57,7 +57,7 @@ export function toSyncElement(node: Node): SyncElement {
   }
 
   Object.entries(node).forEach(([key, value]) => {
-    if (key !== 'children' && !isSlateText(node)) {
+    if (key !== 'children' && !isSlateText({[key]: value})) {
       element.set(key, value);
     }
   });
@@ -65,7 +65,7 @@ export function toSyncElement(node: Node): SyncElement {
   return element;
 }
 
-export const isSlateText = (node: Node): node is Text => {
+export const isSlateText = (node: any): node is Text => {
   return Text.isText(node) && typeof node.text === 'string';
 };
 
