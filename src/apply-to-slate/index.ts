@@ -11,7 +11,7 @@ import translateTextEvent from './text-event';
  */
 export function translateYjsEvent(
   editor: Editor,
-  event: Y.YEvent
+  event: Y.YEvent<any>
 ): Operation[] {
   if (event instanceof Y.YArrayEvent) {
     return translateArrayEvent(editor, event);
@@ -33,7 +33,7 @@ export function translateYjsEvent(
  *
  * @param event
  */
-export function applyYjsEvents(editor: Editor, events: Y.YEvent[]): void {
+export function applyYjsEvents(editor: Editor, events: Y.YEvent<any>[]): void {
   Editor.withoutNormalizing(editor, () => {
     events.forEach((event) =>
       translateYjsEvent(editor, event).forEach(editor.apply)
