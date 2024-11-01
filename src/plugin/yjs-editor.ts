@@ -187,7 +187,7 @@ export function withYjs<T extends Editor>(
   const { onChange } = editor;
 
   e.onChange = () => {
-    if (!YjsEditor.isRemote(e) && !YjsEditor.isUndo(e) && !e.isInitialized) {
+    if (!YjsEditor.isRemote(e) && !YjsEditor.isUndo(e) && e.isInitialized) {
       YjsEditor.applySlateOperations(e, e.operations);
     }
     onChange();
