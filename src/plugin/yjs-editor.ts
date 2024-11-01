@@ -23,6 +23,7 @@ export const YjsEditor = {
   synchronizeValue: (e: YjsEditor): void => {
     Editor.withoutNormalizing(e, () => {
       e.children = toSlateDoc(e.sharedType);
+      e.isInitialized = true;
       e.onChange();
     });
   },
@@ -163,7 +164,6 @@ export function withYjs<T extends Editor>(
   if (isSynchronizeValue) {
     setTimeout(() => {
       YjsEditor.synchronizeValue(e);
-      e.isInitialized = true;
     });
   }
 
