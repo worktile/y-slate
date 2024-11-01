@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.24](https://github.com/worktile/slate-yjs/compare/v0.1.23...v0.1.24) (2024-11-01)
+
+
+### Bug Fixes
+
+* correct onChange logic ([13181a7](https://github.com/worktile/slate-yjs/commit/13181a7001a3a6ac80f9b26173c8c8d6d6314533))
+
 ### [0.1.23](https://github.com/worktile/slate-yjs/compare/v0.1.22...v0.1.23) (2024-11-01)
 
 
