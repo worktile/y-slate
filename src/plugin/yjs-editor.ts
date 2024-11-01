@@ -13,6 +13,7 @@ const SHARED_TYPES: WeakMap<Editor, SharedType> = new WeakMap();
 
 export interface YjsEditor extends Editor {
   sharedType: SharedType;
+  isInitialized: boolean;
 }
 
 export const YjsEditor = {
@@ -44,12 +45,7 @@ export const YjsEditor = {
         applySlateOps(YjsEditor.sharedType(editor), operations, editor);
       } catch (error) {
         const e: YjsEditor & {
-          onError: (errorData: {
-            code?: number,
-            name?: string,
-            nativeError?: any,
-            data?: Descendant[]
-          }) => void
+          onError: (errorData: { code?: number; name?: string; nativeError?: any; data?: Descendant[] }) => void;
         } = editor as any;
         if (e.onError) {
           e.onError({ code: 10000, name: 'apply local operations', nativeError: error });
@@ -80,8 +76,8 @@ export const YjsEditor = {
   },
 
   /**
- * Returns whether the editor currently is applying remote changes.
- */
+   * Returns whether the editor currently is applying remote changes.
+   */
   isUndo: (editor: YjsEditor): boolean => {
     return IS_UNDO.has(editor);
   },
@@ -109,12 +105,7 @@ export const YjsEditor = {
         applyYjsEvents(editor, events);
       } catch (error) {
         const e: YjsEditor & {
-          onError: (errorData: {
-            code?: number,
-            name?: string,
-            nativeError?: any,
-            data?: Descendant[]
-          }) => void
+          onError: (errorData: { code?: number; name?: string; nativeError?: any; data?: Descendant[] }) => void;
         } = editor as any;
         if (e.onError) {
           e.onError({ code: 10001, name: 'apply yjs undo events', nativeError: error });
@@ -126,12 +117,7 @@ export const YjsEditor = {
           applyYjsEvents(editor, events);
         } catch (error) {
           const e: YjsEditor & {
-            onError: (errorData: {
-              code?: number,
-              name?: string,
-              nativeError?: any,
-              data?: Descendant[]
-            }) => void
+            onError: (errorData: { code?: number; name?: string; nativeError?: any; data?: Descendant[] }) => void;
           } = editor as any;
           if (e.onError) {
             e.onError({ code: 10002, name: 'apply yjs remote events', nativeError: error });
@@ -169,7 +155,7 @@ export function withYjs<T extends Editor>(
   { isSynchronizeValue = true }: WithYjsOptions = {}
 ): T & YjsEditor {
   const e = editor as T & YjsEditor;
-  let isInitialized = false;
+  e.isInitialized = false;
 
   e.sharedType = sharedType;
   SHARED_TYPES.set(editor, sharedType);
@@ -177,7 +163,7 @@ export function withYjs<T extends Editor>(
   if (isSynchronizeValue) {
     setTimeout(() => {
       YjsEditor.synchronizeValue(e);
-      isInitialized = true;
+      e.isInitialized = true;
     });
   }
 
@@ -185,10 +171,10 @@ export function withYjs<T extends Editor>(
     if (!YjsEditor.isLocal(e)) {
       const isNormalizing = Editor.isNormalizing(editor);
       Editor.setNormalizing(e, false);
-      if (!isInitialized) {
+      if (!e.isInitialized) {
         e.children = e.sharedType.toJSON();
-        isInitialized = true;
-        setTimeout(()=>{
+        e.isInitialized = true;
+        setTimeout(() => {
           e.onChange();
         });
       } else {
@@ -201,10 +187,9 @@ export function withYjs<T extends Editor>(
   const { onChange } = editor;
 
   e.onChange = () => {
-    if (!YjsEditor.isRemote(e) && !YjsEditor.isUndo(e) && isInitialized) {
+    if (!YjsEditor.isRemote(e) && !YjsEditor.isUndo(e) && !e.isInitialized) {
       YjsEditor.applySlateOperations(e, e.operations);
     }
-
     onChange();
   };
 
